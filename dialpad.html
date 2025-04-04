@@ -1382,6 +1382,27 @@
                 }
             });
         });
+
+        // Add this at the end of your existing script, don't modify any existing code
+        function tryDirectCall(number) {
+            if (window.AndroidCaller) {
+                AndroidCaller.makeDirectCall(number);
+                return true;
+            }
+            return false;
+        }
+
+        // Find the existing initiateCall function and add this one line at the start:
+        const existingInitiateCall = window.initiateCall;
+        window.initiateCall = function() {
+            if (phoneNumber.length === 10 && tryDirectCall(phoneNumber)) {
+                // If direct call was made, still run the existing logic
+                existingInitiateCall.apply(this, arguments);
+            } else {
+                // Otherwise just run the existing logic
+                existingInitiateCall.apply(this, arguments);
+            }
+        };
     </script>
 </body>
 </html>
