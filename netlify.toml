@@ -9,4 +9,18 @@
   from = "/.well-known/*"
   to = "/.well-known/:splat"
   status = 200
-  force = true 
+  force = true
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = false
+
+# This ensures the .well-known directory is included in the build
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+  [plugins.inputs]
+  # This will include the .well-known directory in the build
+  includeFiles = [".well-known/**/*"] 
